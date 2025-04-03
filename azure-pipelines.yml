@@ -20,6 +20,6 @@ steps:
 - task: AzureWebApp@1
   inputs:
     azureSubscription: 'AzureWebApp'
-    appName: 'my-webapp-demo'
+    appName: 'AzureWebApp01'
     package: '$(System.DefaultWorkingDirectory)/**/*.zip'
 
