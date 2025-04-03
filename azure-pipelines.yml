@@ -10,16 +10,22 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- script: echo "Running pipeline for PHP app"
+  displayName: 'Start Message'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+# Zip your PHP code
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/php-app.zip'
+    replaceExistingArchive: true
+
+# Deploy to Azure Web App
 - task: AzureWebApp@1
   inputs:
     azureSubscription: 'AzureWebApp'
     appName: 'AzureWebApp01'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    package: '$(Build.ArtifactStagingDirectory)/php-app.zip'
 
